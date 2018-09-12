@@ -11,14 +11,14 @@ const renderHistoryList = (historyList) => {
         )
     })
     console.log('coll',coll);   
-    //return historyList;
+    return coll;
 }
 
 const HistoryList = (props) => {
     console.log('history-component', props.history);
 
-    if (props.history)
-        renderHistoryList(props.history);
+    // if (props.history)
+    //     renderHistoryList(props.history);
 
     return (
 
@@ -26,7 +26,8 @@ const HistoryList = (props) => {
             <h1>History</h1>
 
             <ul className="list-group direction-row">
-                <li className="list-group-item d-flex justify-content-between align-items-center">
+                {props.history && renderHistoryList(props.history)}
+                {/* <li className="list-group-item d-flex justify-content-between align-items-center">
                     Hoa<span className="badge badge-primary badge-pill">14</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -37,7 +38,7 @@ const HistoryList = (props) => {
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     Hoa<span className="badge badge-primary badge-pill">2</span>
-                </li>       
+                </li>        */}
             </ul>
 
         </div> 
