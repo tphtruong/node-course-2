@@ -7,17 +7,24 @@ import * as actions from '../actions';
 import '../assets/styles/App.css';
 // import '../assets/styles/FontAwesome.min.css';
 
-import bootstrapCSS from 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import PlayersList from '../components/PlayersList';
 import HistoryList from '../components/HistoryList';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
+import AddPlayers from '../components/AddPlayers';
 
 class App extends Component {
+  // componentWillReceiveProps(nextProps) {
+  //   debugger;
+  //   if (true) {
+  //     this.props.router.push('/dashboard');
+  //   }
+  // }
   //componentWillMount will be called several time 
   //so instead we use componentDidMount
   componentDidMount() {
     this.props.fetchPlayers();  //STEP: 2 (CALL ACTION CREATOR)   
+    this.props.fetchHistory();
   }
 
   render() {
@@ -28,9 +35,9 @@ class App extends Component {
           <div>
             <Route exact path="/" component={PlayersList}></Route>
             <Route path="/hist" component={HistoryList}></Route>
+            <Route path="/addPlayers" component={AddPlayers}></Route>
           </div>
          </BrowserRouter>
-         <Footer />
       </div>
     );
   }

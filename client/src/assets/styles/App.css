@@ -69,6 +69,9 @@ body {
   .flex-sm-row {
     line-height: 30px !important;
   }
+  .card-footer.summary {
+    line-height: 32px !important;
+  }
   /* .summary .card-header,
   .summary .card-footer {
     width:50%;
