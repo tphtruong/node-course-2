@@ -56,7 +56,8 @@ const renderPlayersList = (props) => {
                 </div>
                 <div className="card-footer">
                     <input id={count} value={props.value[count]} name={player.name}
-                            className="form-control text-center gameScore"
+                            className="form-control text-center gameScore" type="number"
+                            onFocus={(e)=>e.target.select()}
                             onChange={props.onScoreChange}/>
                 </div>         
             </div>              
