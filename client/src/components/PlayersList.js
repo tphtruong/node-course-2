@@ -73,9 +73,9 @@ const renderPlayersList = (props) => {
                 <h3 className="card-title center">{props.checkSum}</h3>    
             </div>              
             <div className="card-footer summary">
-                <button className="form-control btn btn-primary text-dark-lg" onClick={submitPlayerScores} >Submit</button>
-
-
+                <button className="form-control btn btn-primary text-dark-lg" 
+                        disabled={props.checkSum!==0 || !props.hasScore}
+                        onClick={submitPlayerScores} >Submit</button>
 
             </div>                    
         </div> 

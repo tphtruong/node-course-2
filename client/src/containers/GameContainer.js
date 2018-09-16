@@ -22,7 +22,8 @@ class GameContainer extends React.Component {
             nextDealerPos: props.nextDealerPos,
             nextKeyId:0,
             playersScore:[],
-            dealerName: props.dealer
+            dealerName: props.dealer,
+            hasScore:false
         }
     }
 
@@ -100,7 +101,7 @@ class GameContainer extends React.Component {
                 if (nextPos === 4) nextPos = 0
                 thisNumber = 3;
             }       
-            this.setState({value: [0,0,0,0],checkSum: 0}) 
+            this.setState({value: [0,0,0,0],checkSum: 0,hasScore:false}) 
 
             // console.log(playerList);
 
@@ -138,9 +139,14 @@ class GameContainer extends React.Component {
         var checkSum = 0;
         if(e.target.id!==undefined){
             // const re = /^[0-9\b]+$/;
-            var coll=[]
+            var coll=[];
+            let hasScore = false;
+            var scores = this.state.value;
             var newVal = e.target.value; // parseInt(e.target.value); 
             this.state.value.map( (x,i) => {
+                if (!hasScore && parseInt(scores[i]) !== 0)
+                    hasScore = true;
+
                 if (i===parseInt(e.target.id)){
                     coll.push(newVal)
                     checkSum += parseInt(newVal);
@@ -149,7 +155,7 @@ class GameContainer extends React.Component {
                     checkSum += parseInt(x);
                 }
             })
-            this.setState({value: coll, checkSum})
+            this.setState({value: coll, checkSum, hasScore})
         }   
     }
 
@@ -162,6 +168,7 @@ class GameContainer extends React.Component {
                   onPlayerChange={this.onPlayerChange.bind(this)}
                   submitScore={this.submitScore.bind(this)}
                   checkSum={this.state.checkSum}
+                  hasScore={this.state.hasScore}
                   value={this.state.value}
                   players={this.props.players}
                   setDealer={this.setDealer.bind(this)}
