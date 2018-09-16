@@ -2,73 +2,125 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 // import { Map, List } from 'immutable';
+import { withRouter } from 'react-router';
 
 class AddPlayers extends Component {
     constructor(props){
         super(props);
         this.state = {
-            players : [
-                { id: 1, name: ''},
-                { id: 2, name: ''},
-                { id: 3, name: ''},
-                { id: 4, name: ''}
-            ]
-            // players: List([
-            //     { id: 1, name: ''},
-            //     { id: 2, name: ''},
-            //     { id: 3, name: ''},
-            //     { id: 4, name: ''}
-            // ])
+            players : ['','','',''],
+            checkedDealers : ['','','',''],
+            dealerName : '',
+            dealingNumber: 3,
+            nextDealerPos:0
         }
+
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCheckBoxClick = this.handleCheckBoxClick.bind(this);
     }
 
     handleInputChange = function(e) {
-        var playerName = e.target.value;
-        var newPlayers = []
-        for (var s of this.state.players) {
-            if (s.id === e.target.id)
-                newPlayers.push({ id: parseInt(e.target.id), name: playerName})
-            else
-                newPlayers.push(s)
-        }
-
-        // var idx = e.target.id;
-        // const newPlayers = this.state.players;//.toArray();
-        // newPlayers.map( (x,i) => {
-        //     var newObj = Object.assign({}, x);
-        //     if (parseInt(x.id)===parseInt(idx)) {
-        //         newObj.name = playerName;
-        //     } 
-        //     return newObj;
-        // })
-        this.setState({ players: newPlayers });
+        var newVal = e.target.value;
+        var coll = [];
+        this.state.players.map( (x,i) => {
+            if (i===parseInt(e.target.id)){
+                coll.push(newVal)
+            }else{
+                coll.push(x);
+            }
+        })
+        this.setState({ players: coll});
+        console.log('sorte....change..',this.state.players);
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault()
-        //console.log(this.state.players);
-        this.props.handleAddPlayers(this.state.players);
+    handleCheckBoxClick = function(e) {
+        var dealerName = '';
+        var nextDealerPos = 0;
+        var dealingNumber = 3; //'xxx' ;
+        var coll = [];
+        coll = this.state.checkedDealers.map( (x,i) => {
+            if (i===parseInt(e.target.value)){
+                dealerName = this.state.players[i];
+                nextDealerPos = i;
+            }
+           
+            return i===parseInt(e.target.value) ? 'checked' : ''
+        })
+        this.setState({ checkedDealers: coll, dealerName, nextDealerPos, dealingNumber });
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        var allOK = true;
+
+        var newPlayers = this.state.players && this.state.players.map( (x,i) => {
+            if(allOK) allOK = x.length > 0
+            return {name:x, score:0, total:0}
+        })
+
+        if (!allOK)
+            alert('Please enter all players names')
+        else{
+            if (this.state.dealerName === '') {
+                alert('Please select dealer')
+                return false
+            }
+            const game = {gameKey:-999, 
+                dealer: this.state.dealerName,
+                nextDealerPos: this.state.nextDealerPos,
+                dealingNumber: this.state.dealingNumber,
+                players: newPlayers}
+            this.props.handleSaveGameScores(game)
+            .then((res) => {
+                console.log('redirect to dashboard...');
+                this.props.history.push("/fetchPlayers");
+            });
+
+            //console.log('add new', newPlayers);
+            // this.props.handleAddPlayers(newPlayers)
+            //     .then((res) => {
+            //         console.log('redirect to dashboard...');
+            //         this.props.history.push("/fetchPlayers");
+            //     });
+
+        }
+            
       }
 
   render() {
 
     return (
         <form onSubmit={this.handleSubmit} noValidate> 
-            <div className="form-group">
-                {this.state.players.map((player, i) => {
-                    return (
-                        <div key={i+1}>
-                            <label >Player {player.id}</label>
-                            <input type="text" id={player.id}
-                                name="playerName" value={player.name} 
-                                onChange={this.handleInputChange}
-                                    placeholder="Enter Player Name" />
-                        </div>
-                    )
-                })}
-            </div>
-
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Player Name</th>
+                        <th scope="col">Start Dealer</th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    {this.state.players.map((player, i) => {
+                        console.log('this.state.checkedDealers[i]',this.state.checkedDealers[i])
+                        return (
+                            <tr>
+                                <th scope="row">{i+1}</th>
+                                <td><input type="text" id={i} className="playerName"
+                                        name="playerName" value={player.name} 
+                                        onChange={this.handleInputChange}
+                                        placeholder="Enter Player Name" />
+                                </td>
+                                <td><input type="checkbox" value={i} 
+                                        checked={this.state.checkedDealers[i]}
+                                        onClick={this.handleCheckBoxClick}  />
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>
 
@@ -76,11 +128,8 @@ class AddPlayers extends Component {
   }
 }
 
-// function mapStateToProps(state){
-//     console.log(state.playersReducer);
-//     return {
-//         playersReducer : state.playersReducer
-//     }
-// }
+const mapStateToProps = ({players}) => ({
+    players//: playersFunc.players
+});
 
 export default connect(null, actions)(AddPlayers);

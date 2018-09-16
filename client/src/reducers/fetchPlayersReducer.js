@@ -1,36 +1,40 @@
 // this is REDUX STORE
 import * as types from '../actions/types';
 
-const fetchPlayersReducer = (state={}, action) => {
-    console.log('from reducers',action); //STEP: 6 (REACT BOOTS UP)
+const fetchPlayersReducer = (state=[], action) => {
+    console.log('from players reducers',action); //STEP: 6 (REACT BOOTS UP)
     //debugger;
     switch (action.type) {
         case types.ADD_PLAYERS:
-            //return action.payload || false;
+            return action.payload || false;
+            // return {
+            //     loading: true,
+            //     error: null,
+            //     players: action.payload || false
+            // };
+        case types.CLEAR_HISTORY:
             return {
-                loading: true,
-                error: null,
-                players: action.payload || false
+                history : action.history
             };
         case types.UPDATE_PLAYER:
             return action.payload || false;
         case types.FETCH_PLAYERS:
-            return action.players || false;
+            return action.payload || false;
         case types.SAVE_GAME_SCORES:
             return action.payload;
-        case types.ADD_PLAYERS_SUCCESS:
-            //return action.payload ;  //Object.assign(state.players,action.payload);
-            return {
-                loading: false,
-                error: null,
-                players: action.payload
-            };
-        case types.ADD_PLAYERS_FAILURE:
-            return {
-                players: null,
-                loading: false,
-                error: action.payload.error
-            };
+        // case types.ADD_PLAYERS_SUCCESS:
+        //     //return action.payload ;  //Object.assign(state.players,action.payload);
+        //     return {
+        //         loading: false,
+        //         error: null,
+        //         players: action.payload
+        //     };
+        // case types.ADD_PLAYERS_FAILURE:
+        //     return {
+        //         players: null,
+        //         loading: false,
+        //         error: action.payload.error
+        //     };
         default:
             return state;
     }

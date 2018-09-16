@@ -2,6 +2,7 @@
 import axios from 'axios';
 import * as types from './types';
 
+
 export const fetchPlayers = () => 
     //REMEMBER : Before, normally we would do the following
     /*
@@ -20,10 +21,10 @@ export const fetchPlayers = () =>
     // with the help of Redux-thunk (see below)
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
         const res = await axios.get('/api/fetchPlayers')
-        console.log('res',res);
+        //console.log('res',res);
         dispatch({ 
             type : types.FETCH_PLAYERS, 
-            players: res.data 
+            payload: res.data 
         })
 
         // const hist = await axios.get('/api/fetchHistory')
@@ -34,25 +35,11 @@ export const fetchPlayers = () =>
         // })
 }
 
-export const fetchHistory = () =>   
-    async (dispatch) => {             // this is a dispatch function by Redux-Thunk
-        const res = await axios.get('/api/fetchHistory')
-        console.log('history-action',res);
-        dispatch({ type : types.FETCH_HISTORY, history: res.data });
-
-
-        // return axios.get(...)
-        // .then((response) => {
-        //      return axios.get(...); // using response.data
-        // })
-        // .then((response) => {
-        //       return {
-        //           type: FETCH_TRACKS,
-        //           payload: response.data;
-        //       };
-        // });
-
-
+export const clearHistory = () =>   
+async (dispatch) => {             // this is a dispatch function by Redux-Thunk
+    const res = await axios.post('/api/clearHistory')
+    console.log('clearHistory-action',res);
+    dispatch({ type : types.FETCH_PLAYERS, payload: res.data });
 }
 
 export const handleToken = (token) =>   
@@ -74,13 +61,25 @@ export const handleToken = (token) =>
         dispatch({ type : types.UPDATE_PLAYER, payload: res.data });
     }
 
-export const handleSaveGameScores = (players) => 
+export const handleSaveGameScores = (game) => 
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
-        const res = await axios.post('/api/saveGameScores',players)
-        //console.log('action-players',players);
+        const res = await axios.post('/api/addgame',game)
+        console.log('action-save-game-score-response',res.config.data);
+        dispatch({ type : types.ADD_PLAYERS, payload: res.data });
+    }
 
-        console.log('action-res',res.config.data);
-        dispatch({ type : types.SAVE_GAME_SCORES, payload: res.data });
+export const handleSaveGameScoresOld = (players) => 
+    async (dispatch) => {             // this is a dispatch function by Redux-Thunk
+        // const res = await axios.post('/api/saveGameScores',players)
+        // console.log('action-save-game-score-response',res.config.data);
+        // dispatch({ type : types.SAVE_GAME_SCORES, payload: res.data });
+
+
+        const res = await axios.post('/api/addPlayers',players)
+        console.log('action-save-game-score-response',res.config.data);
+        dispatch({ type : types.ADD_PLAYERS, payload: res.data });
+
+
     }
 
 export const handleAddPlayers = (players) => 
@@ -89,8 +88,10 @@ export const handleAddPlayers = (players) =>
         //console.log('action-players',players);
 
         console.log('action-res',res.config.data);
-        dispatch(addTodoSuccess(res.config.data));
+        //dispatch(addTodoSuccess(res.config.data));
+        dispatch({ type : types.ADD_PLAYERS, payload: res.data });
 
+        
         // dispatch({ type : types.ADD_PLAYERS, 
         //     payload: (action, state, res) => {
         //         console.log('action-action',action);

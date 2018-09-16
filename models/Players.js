@@ -5,6 +5,7 @@ const { Schema } = mongoose; // meaning setting variable called Schema from mong
 //     googleId : String
 // })
 const playersSchema = new Schema({
+    gameKey: String,
     name : String,
     score: Number,
     total: Number

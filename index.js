@@ -1,15 +1,15 @@
 const express = require('express');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 // const cookieSession = require('cookie-session');
 // const passport = require('passport');
 const keys = require('./config/keys')
 
-require('./models/User');
+// require('./models/User');
 // require('./services/passport');
 
-mongoose.Promise = global.Promise;
-mongoose.connect(keys.mongoURI);
+// mongoose.Promise = global.Promise;
+// mongoose.connect(keys.mongoURI);
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,7 +23,8 @@ app.use(bodyParser.json());
 // app.use(passport.session());
 
 require('./routes/authRoutes')(app);
-require('./routes/billingRoutes')(app);
+// require('./routes/billingRoutes')(app);
+// require('./routes/members')(app);
 
 //the following is required in PROD 
 if (process.env.NODE_ENV === 'production'){ //this node_env is setup automatically by Heroku

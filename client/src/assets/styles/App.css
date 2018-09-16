@@ -28,6 +28,39 @@ body {
   font-size: large;
 }
 
+.card-header.badge-container {
+  position: relative;
+}
+
+.card-header.badge-container .badge-pill {
+  position:absolute;
+  height: 38px;
+  left:0;
+}
+.card-body.text-alert {
+  /* border: solid 1px red; */
+  color:red;
+}
+.card-body.text-primary {
+  /* background-color : greenyellow; */
+  color:green;
+}
+
+.card-group {
+  width: 100%;
+}
+.presentation {
+  padding: 5px;
+}
+
+.nav.nav-pills.tablist {
+  font-size: 36px;
+}
+
+.gameScore {
+  font-size: 24px !important;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -46,6 +79,88 @@ body {
   background-color: #f5f5f5;
 }
 
+.flex-wrapper {
+  height: 100%;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+.flex-parent {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-child {
+  flex: 1 0 25%; /* explanation below */
+  /* margin: 5px; */
+  box-sizing: border-box;
+}
+.flex-child h6 {
+  font-size: 24px;
+}
+.flex-child > span:first {
+  padding-right: 5px !important;
+}
+
+.flex-child h6 {
+  font-size: 24px;
+  float: left;
+  width: 50%;
+  text-align: left;
+  margin: 0;
+  padding-left:30px;
+}
+
+.card-footer.summary {
+  line-height: 32px !important;
+}
+
+.card-body {
+  padding:0px !important;
+}
+
+.badge.badge-pill {
+  width:60px;
+  padding: 5px;
+}
+
+.card-header.badge-container .badge-pill {
+  top:0;
+}
+
+.playerName {
+  width: 100%;
+}
+
+.dealer-badge span {
+  width:36px !important;
+  height: 36px !important;
+}
+
+@media (max-width: 768px) { 
+  .panel .badge.badge-pill {
+    width:100%;
+  }
+  .panel .flex-child h6 {
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+    padding-left: 0px;
+  }
+
+  .card-header.badge-container .badge-pill {
+    height: 19px;
+    top:0;
+    font-size: 16px;
+    padding:0px;
+  }
+
+  .dealer-badge span {
+    width:26px !important;
+    height:26px !important;
+  }
+
+}
+
+
 /*Small devices (landscape phones, 576px and up)*/
 @media (max-width: 576px) {
   .card-group {
@@ -63,8 +178,9 @@ body {
     flex:1;
   } 
 
+  .card-footer,
   .card-header{
-    flex: 0 0 160px;
+    flex: 0 0 130px;
   }  
   .flex-sm-row {
     line-height: 30px !important;
@@ -72,11 +188,39 @@ body {
   .card-footer.summary {
     line-height: 32px !important;
   }
-  /* .summary .card-header,
-  .summary .card-footer {
-    width:50%;
+
+  .flex-child {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
   }
-  .summary .card-body{
-    display:none;
-  } */
+  .flex-child h6 {
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding-left:0px;
+  }
+  .flex-child span {
+    flex: 1; /* explanation below */
+    box-sizing: border-box;
+  }
+  .nav.nav-pills.tablist {
+    font-size: 14px;
+  }
+
+  .card-header.badge-container .badge-pill {
+    top:0;
+    /* font-size: 10px; */
+    border-radius: 10px;
+  }
+  .panel .badge.badge-pill {
+    width:100%;
+    /* padding: 0px; */
+  }
+
+  .dealer-badge span {
+    width:18px !important;
+    height: 18px !important;
+  }
 }

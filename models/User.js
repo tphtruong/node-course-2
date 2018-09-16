@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose; // meaning setting variable called Schema from mongoose.Schema func
+const { Schema } = mongoose;
 
-// const userSchema = new Schema({
-//     googleId : String
-// })
-const playersSchema = new Schema({
-    name : String,
-    score: Number,
-    total: Number
-})
+const userSchema = new Schema({
+  googleId: String,
+  credits: { type: Number, default: 0 }
+});
 
-mongoose.model('players', playersSchema);  // create new coll called users (note: if users collection already exists then it just load it)
-
+mongoose.model('users', userSchema);

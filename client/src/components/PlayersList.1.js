@@ -35,11 +35,12 @@ const renderPlayersList = (props) => {
 
     firstRows.players.map((player,count) => {
         var dealerPos = (pos) => {
-            if (firstRows.nextDealerPos > -1 && firstRows.nextDealerPos < 4 && firstRows.nextDealerPos === pos) {
-                return <span className="badge badge-primary badge-pill">{firstRows.dealingNumber}</span>;
+            if (props.nextDealerPos > -1 && props.nextDealerPos < 4 && props.nextDealerPos === pos) {
+                return <span className="badge badge-primary badge-pill">{props.dealingPatern}</span>;
             } 
             return null;
         }
+        
         rows.push(
            <div key={player._id} className="card border-primary text-center bg-light mb-2" >
                
@@ -48,7 +49,7 @@ const renderPlayersList = (props) => {
                     name={player.name}
                     className={`card-header badge-container ${dealerPos(count)!==null ? 'dealer-badge' : ''}`}>
                     {player.name}   
-                    {dealerPos(count)}     
+                    {dealerPos(count)}              
                 </h3>
 
                 <div className={`card-body ${player.total < 0 ? 'text-alert' : 'text-primary'}`}>
