@@ -29,11 +29,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-                
-          
           <BrowserRouter>
             <div>
-            <Header />  
+              <Header />  
               <Route exact path="/fetchPlayers" component={GameContainer}></Route>
               <Route path="/addPlayers" component={AddPlayers}></Route>             
             </div>

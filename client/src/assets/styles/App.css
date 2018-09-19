@@ -8,16 +8,37 @@ body {
   text-align: center;
 }
 
+div.Header {
+  background: black;
+}
+  div.Header .btn-group a {
+    color:white !important;
+  }
+
+.BlankPage {
+  display: block;
+  margin-top: 45px;
+}
+
+.BlankPage .Info {
+  padding-top: 30px;
+}
+
+.BlankPage img {
+  animation: App-logo-spin infinite 20s linear;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  /* background-color: #222; */
+  height: 80px;
   padding: 20px;
   color: white;
+  background-image: url("../images/main-logo.png");
 }
 
 .App-title {

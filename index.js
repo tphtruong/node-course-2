@@ -39,6 +39,12 @@ if (process.env.NODE_ENV === 'production'){ //this node_env is setup automatical
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
+
+
+
+
+
+
 const PORT =  process.env.PORT || 5000;
 //app.listen(5000);
 app.listen(PORT);

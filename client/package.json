@@ -13,11 +13,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.3",
+    "electron-dev": "^1.0.1",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "materialize": "^1.0.0",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
+    "react-loading": "^2.0.3",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",

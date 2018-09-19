@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import PlayersList from '../components/PlayersList';
 import HistoryList from '../components/HistoryList';
+import Blank from '../components/Blank';
 
 class GameContainer extends React.Component {
     componentDidMount() {
@@ -159,10 +160,16 @@ class GameContainer extends React.Component {
         }   
     }
 
-    render(dealerList) {
-        console.log('component rendering...', dealerList);
-        return (
+    render() {
+        
+        const { isLoading, players } = this.props;
+
+        console.log('component rendering...', players && players.length);
+        if (players && players.length === 0) return <Blank />
+
+        return (          
             <div className="card-group">
+
                 <PlayersList
                   onScoreChange={this.onScoreChange.bind(this)}
                   onPlayerChange={this.onPlayerChange.bind(this)}
@@ -170,13 +177,10 @@ class GameContainer extends React.Component {
                   checkSum={this.state.checkSum}
                   hasScore={this.state.hasScore}
                   value={this.state.value}
-                  players={this.props.players}
                   setDealer={this.setDealer.bind(this)}
                   dealingPatern={this.state.dealingPatern}
-                  nextDealerPos={this.props.nextDealerPos}
-                  dealingNumber={this.props.dealingNumber}
                   dealerName={this.state.dealerName}
-
+                  {...this.props}
                    />
                 <HistoryList {...this.props}  />
             </div> 
@@ -189,7 +193,8 @@ function mapStateToProps(state){
     //const {gameKey , players} = state;
     //debugger;
     return {
-        players : state.players
+        players : state.players.payload,
+        isLoading: state.players.isLoading
         // gameKey : state.players.length > 0 ? state.players[0].gameKey : undefined,
         // historyReducer : state.historyReducer
     }

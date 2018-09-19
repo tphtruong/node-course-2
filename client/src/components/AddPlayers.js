@@ -76,14 +76,6 @@ class AddPlayers extends Component {
                 console.log('redirect to dashboard...');
                 this.props.history.push("/fetchPlayers");
             });
-
-            //console.log('add new', newPlayers);
-            // this.props.handleAddPlayers(newPlayers)
-            //     .then((res) => {
-            //         console.log('redirect to dashboard...');
-            //         this.props.history.push("/fetchPlayers");
-            //     });
-
         }
             
       }
@@ -97,7 +89,7 @@ class AddPlayers extends Component {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Player Name</th>
-                        <th scope="col">Start Dealer</th>
+                        <th scope="col">1st Dealer</th>
                     </tr>
                 </thead>
             

@@ -5,21 +5,37 @@ const fetchPlayersReducer = (state=[], action) => {
     console.log('from players reducers',action); //STEP: 6 (REACT BOOTS UP)
     //debugger;
     switch (action.type) {
-        case types.ADD_PLAYERS:
-            return action.payload || false;
-            // return {
-            //     loading: true,
-            //     error: null,
-            //     players: action.payload || false
-            // };
+        case `${types.ADD_PLAYERS}_PENDING`:
+            // return action.payload || false;
+            return {
+                payload: action.payload,
+                isLoading: action.isLoading
+            };
+            
+        case `${types.ADD_PLAYERS}_FULFILLED`:
+            // return action.payload || false;
+            return {
+                payload: action.payload,
+                isLoading: action.isLoading
+            };      
+            
         case types.CLEAR_HISTORY:
             return {
                 history : action.history
             };
-        case types.UPDATE_PLAYER:
-            return action.payload || false;
-        case types.FETCH_PLAYERS:
-            return action.payload || false;
+        case `${types.FETCH_PLAYERS}_PENDING`:
+            // return action.payload || false;
+            return {
+                payload: action.players,
+                isLoading: action.isLoading
+            };
+        case `${types.FETCH_PLAYERS}_FULFILLED`:
+            // return action.payload || false;
+            return {
+                payload: action.players,
+                isLoading: action.isLoading
+            };
+
         case types.SAVE_GAME_SCORES:
             return action.payload;
         // case types.ADD_PLAYERS_SUCCESS:
