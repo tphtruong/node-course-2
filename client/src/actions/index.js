@@ -42,7 +42,11 @@ export const clearHistory = () =>
             isLoading: true
         })       
 
-        const res = await axios.get('/api/clearHistory')
+        const res1 = await axios.post('/api/clearHistory')
+        //console.log('clear history', res1);
+
+        const res = await axios.get('/api/fetchPlayers')
+        //console.log('fetch players', res);
         dispatch({ 
             type : `${types.FETCH_PLAYERS}_FULFILLED`, 
             players: res.data || [],
@@ -83,14 +87,14 @@ export const handleAddPlayers = (players) =>
         const res = await axios.post('/api/addPlayers',players)
         //console.log('action-players',players);
 
-        console.log('action-res',res.config.data);
+        //console.log('action-res',res.config.data);
         //dispatch(addTodoSuccess(res.config.data));
         dispatch({ type : types.ADD_PLAYERS, payload: res.data });
     }
 
 
 
-    export const handleUpdatePlayer = (player) =>   
+export const handleUpdatePlayer = (player) =>   
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
         const res = await axios.post('/api/updatePlayer', player);
         console.log('action-update-player', player);
