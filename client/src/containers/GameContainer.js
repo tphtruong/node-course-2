@@ -5,6 +5,7 @@ import * as actions from '../actions';
 import PlayersList from '../components/PlayersList';
 import HistoryList from '../components/HistoryList';
 import Blank from '../components/Blank';
+import Loader from '../components/Loader';
 
 class GameContainer extends React.Component {
     componentDidMount() {
@@ -165,7 +166,7 @@ class GameContainer extends React.Component {
         const { isLoading, players } = this.props;
 
         console.log('component rendering...', players && players.length);
-        if (players && players.length === 0) return <Blank />
+        if (players && players.length === 0 && !isLoading) return <Blank />
 
         return (          
             <div className="card-group">

@@ -1,5 +1,5 @@
 import React from 'react';
-import bg25 from '../assets/images/bg_poker.png';
+import bg25 from '../assets/images/bg_poker-2.png';
 
 const Blank = (props) => {
     return (
