@@ -42,7 +42,7 @@ export const clearHistory = () =>
             isLoading: true
         })       
 
-        const res = await axios.get('/api/fetchPlayers')
+        const res = await axios.get('/api/clearHistory')
         dispatch({ 
             type : `${types.FETCH_PLAYERS}_FULFILLED`, 
             players: res.data || [],
@@ -90,7 +90,7 @@ export const handleAddPlayers = (players) =>
 
 
 
-export const handleUpdatePlayer = (player) =>   
+    export const handleUpdatePlayer = (player) =>   
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
         const res = await axios.post('/api/updatePlayer', player);
         console.log('action-update-player', player);
