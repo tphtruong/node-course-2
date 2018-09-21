@@ -50,6 +50,7 @@ module.exports = (app) => {
             console.log('the dealer Pos', games[0].nextDealerPos)
             console.log('the dealing nuymber', games[0].dealingNumber)
         }
+        console.log('fetch plaers rep',games);
         res.send(games);  
     });
 

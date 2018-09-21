@@ -258,4 +258,8 @@ div.Header {
   .card.border-primary {
     margin-bottom: .1rem !important
   }
+
+  .flex-child span h6 {
+    color:black ;
+  }
 }

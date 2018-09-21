@@ -4,9 +4,9 @@ import { connect } from 'react-redux';  //this is helper from redux, this lib he
 import * as actions from '../actions';
 
 //import 'materialize-css/dist/css/materialize.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/styles/App.css';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../components/Header';
 import GameContainer from './GameContainer';
 import AddPlayers from '../components/AddPlayers';

@@ -40,11 +40,6 @@ if (process.env.NODE_ENV === 'production'){ //this node_env is setup automatical
     });
 }
 
-
-
-
-
-
 const PORT =  process.env.PORT || 5000;
 //app.listen(5000);
 app.listen(PORT);

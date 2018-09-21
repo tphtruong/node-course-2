@@ -25,8 +25,10 @@ export const fetchPlayers = () =>
             players: [] ,
             isLoading: true
         })       
-        
-        const res = await axios.get('/api/fetchPlayers')
+    console.log('zzzzzzzzzzzzzzzzzzzzzz api/fetchPlayers...');
+
+    const res = await axios.get('/api/fetchPlayers')
+    console.log('!!!!!!!!!!!!!!!!! api/fetchPlayers...', res);
         dispatch({ 
             type : `${types.FETCH_PLAYERS}_FULFILLED`, 
             players: res.data ,
