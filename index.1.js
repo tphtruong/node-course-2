@@ -20,7 +20,7 @@ require('./routes/authRoutes')(app);
 // require('./routes/billingRoutes')(app);
 // require('./routes/members')(app);
 
-require('./routes/chatRoutes')(app);
+//require('./routes/chatRoutes')(app);
 
 //the following is required in PROD 
 if (process.env.NODE_ENV === 'production'){ //this node_env is setup automatically by Heroku
