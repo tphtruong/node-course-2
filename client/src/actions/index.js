@@ -25,15 +25,32 @@ export const fetchPlayers = () =>
             players: [] ,
             isLoading: true
         })       
-    console.log('zzzzzzzzzzzzzzzzzzzzzz api/fetchPlayers...');
-
-    const res = await axios.get('/api/fetchPlayers')
-    console.log('!!!!!!!!!!!!!!!!! api/fetchPlayers...', res);
+        
+        const res = await axios.get('/api/fetchPlayers')
         dispatch({ 
             type : `${types.FETCH_PLAYERS}_FULFILLED`, 
             players: res.data ,
             isLoading: false
         })
+}
+//removeGame
+export const removeGame = (gamedId) =>   
+async (dispatch) => {             // this is a dispatch function by Redux-Thunk
+    dispatch({ 
+        type : `${types.FETCH_PLAYERS}_PENDING`, 
+        players: [] ,
+        isLoading: true
+    })       
+    console.log('remve game iod...', gamedId);
+
+    const res1 = await axios.post('/api/removeGame/'+gamedId)
+    console.log('delete history for game...', res1);
+    const res = await axios.get('/api/fetchPlayers')
+    dispatch({ 
+        type : `${types.FETCH_PLAYERS}_FULFILLED`, 
+        players: res.data || [],
+        isLoading: false
+    });
 }
 
 export const clearHistory = () =>   
@@ -43,12 +60,9 @@ export const clearHistory = () =>
             players: [] ,
             isLoading: true
         })       
-
         const res1 = await axios.post('/api/clearHistory')
         //console.log('clear history', res1);
-
         const res = await axios.get('/api/fetchPlayers')
-        //console.log('fetch players', res);
         dispatch({ 
             type : `${types.FETCH_PLAYERS}_FULFILLED`, 
             players: res.data || [],
@@ -89,7 +103,7 @@ export const handleAddPlayers = (players) =>
         const res = await axios.post('/api/addPlayers',players)
         //console.log('action-players',players);
 
-        //console.log('action-res',res.config.data);
+        console.log('action-res',res.config.data);
         //dispatch(addTodoSuccess(res.config.data));
         dispatch({ type : types.ADD_PLAYERS, payload: res.data });
     }

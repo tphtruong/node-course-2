@@ -34,26 +34,42 @@ module.exports = (app) => {
         //const playerList = await Players.find({}).sort(filter).limit(20); 
 
         const games = await Games.find({}).sort(filter).limit(10); 
-
-        //res.send(playerList);         
-        //res.redirect('/'); 
-
-        // var test = games.reduce(function(result, item, index, array) {
-        //     console.log(result);
-
-        //     result[index] = item; //a, b, c
-        //     return result;
-        //   }, {})
-        if (games.length > 0) {
-            console.log('the game key is', games.length>0 ? games[0].gameKey:0);
-            console.log('the dealer name is', games[0].dealer)
-            console.log('the dealer Pos', games[0].nextDealerPos)
-            console.log('the dealing nuymber', games[0].dealingNumber)
-        }
-        console.log('fetch plaers rep',games);
+        // if (games.length > 0) {
+        //     console.log('the game key is', games.length>0 ? games[0].gameKey:0);
+        //     console.log('the dealer name is', games[0].dealer)
+        //     console.log('the dealer Pos', games[0].nextDealerPos)
+        //     console.log('the dealing nuymber', games[0].dealingNumber)
+        // }
         res.send(games);  
     });
 
+    //find({ id:333 }).remove().exec();
+    app.post('/api/removeGame/:id', async (req, res) => {
+        console.log('remove game req.body', req.params.id);
+
+        if (req.params.id !== undefined){
+
+            Games.findByIdAndRemove(req.params.id, function(doc) { // doc here is actually err
+                console.log('findByIdAndRemove doc: ', doc);
+                // Games.find({}, function(err, doc) {
+                //   console.log('Finding all: ', doc)
+                // })
+              })
+
+            const response = await Games.find({id:req.params.id})
+                .remove()
+                .exec((data => {
+                console.log('data',data);
+            })); 
+            console.log('removing resp',response.data);
+        }
+        
+        //
+
+        res.redirect('/api/fetchPlayers');       
+    });
+
+    
     app.post('/api/updatePlayer',requireLogin, (req, res) => {
         try {
             var player = req.body;

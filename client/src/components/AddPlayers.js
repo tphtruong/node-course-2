@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+// import { Map, List } from 'immutable';
 import { withRouter } from 'react-router';
 
 class AddPlayers extends Component {
@@ -30,7 +31,7 @@ class AddPlayers extends Component {
             }
         })
         this.setState({ players: coll});
-        //console.log('sorte....change..',this.state.players);
+        console.log('sorte....change..',this.state.players);
     }
 
     handleCheckBoxClick = function(e) {
@@ -72,7 +73,7 @@ class AddPlayers extends Component {
                 players: newPlayers}
             this.props.handleSaveGameScores(game)
             .then((res) => {
-                //console.log('redirect to dashboard...');
+                console.log('redirect to dashboard...');
                 this.props.history.push("/fetchPlayers");
             });
         }
@@ -94,7 +95,7 @@ class AddPlayers extends Component {
             
                 <tbody>
                     {this.state.players.map((player, i) => {
-                        //console.log('this.state.checkedDealers[i]',this.state.checkedDealers[i])
+                        console.log('this.state.checkedDealers[i]',this.state.checkedDealers[i])
                         return (
                             <tr>
                                 <th scope="row">{i+1}</th>

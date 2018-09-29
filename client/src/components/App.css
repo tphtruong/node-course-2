@@ -36,9 +36,10 @@ div.Header {
 .App-header {
   /* background-color: #222; */
   height: 80px;
-  padding: 20px;
+  /* padding: 20px; */
   color: white;
   background-image: url("../images/main-logo.png");
+  padding-top: 50px;
 }
 
 .App-title {
@@ -69,6 +70,7 @@ div.Header {
 
 .card-group {
   width: 100%;
+  background: cadetblue;
 }
 .presentation {
   padding: 5px;
@@ -82,15 +84,13 @@ div.Header {
   font-size: 24px !important;
 }
 
-/* .icon-dealer::before {
-  content:"";
-  position: absolute;
-  top:30%;
-  left:0;
-  border-top: 10px solid transparent;
-  border-left: 10px solid red;
-  border-bottom: 10px solid transparent;
-} */
+.flex-wrapper {
+  background: darkgrey;
+  color:white;
+}
+.flex-child span h6 {
+  color:black ;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
@@ -100,7 +100,6 @@ div.Header {
 .card-group.card {
   width: 18rem;
 }
-
 
 .footer {
   position: absolute;
@@ -121,14 +120,12 @@ div.Header {
   flex-wrap: wrap;
 }
 .flex-child {
-  flex: 1 0 20%; /* explanation below */
+  flex: 1 0 25%; /* explanation below */
   /* margin: 5px; */
   box-sizing: border-box;
-  position: relative;
 }
 .flex-child h6 {
   font-size: 24px;
-  color:black !important;
 }
 .flex-child > span:first {
   padding-right: 5px !important;
@@ -140,7 +137,7 @@ div.Header {
   width: 50%;
   text-align: left;
   margin: 0;
-  /* padding-left:30px; */
+  padding-left:30px;
 }
 
 .card-footer.summary {
@@ -169,30 +166,14 @@ div.Header {
   height: 36px !important;
 }
 
-.flex-child .badge.badge-primary {
-  color: #007C65;
-  border:solid 1px;
-  background: inherit !important;
-  font-size: 28px;
-  border-radius: 10px;
+.card.border-primary{
+  margin-bottom: 0px !important;
 }
 
-.flex-child .badge.bg-danger {
-  color: red !important;
-  background: white !important;
-  border:solid 1px;
-  font-size: 28px;
-  border-radius: 10px;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 768px) { 
   .panel .badge.badge-pill {
     width:100%;
   }
-  .flex-child {
-    flex: 1 0 25%; /* explanation below */
-  }
-
   .panel .flex-child h6 {
     font-size: 20px;
     width: 100%;
@@ -212,9 +193,6 @@ div.Header {
     height:26px !important;
   }
 
-  .btn-remove {
-    display:none;
-  }
 }
 
 
@@ -223,25 +201,22 @@ div.Header {
   .card-group {
     display:block !important;
   }
-  .flex-child {
-    flex: 1 0 25%; /* explanation below */
-  }
 
   .card {
     flex-direction: row !important;
     align-items: center;
-    margin:auto;
+    margin:auto;  
   }
   .card-header,
   .card-footer,
   .card-body{
     flex:1;
-  }
+  } 
 
   .card-footer,
   .card-header{
     flex: 0 0 130px;
-  }
+  }  
   .flex-sm-row {
     line-height: 30px !important;
   }
@@ -284,7 +259,11 @@ div.Header {
     height: 18px !important;
   }
 
-  .btn-remove {
-    display:none;
+  .card.border-primary {
+    margin-bottom: .1rem !important
+  }
+
+  .flex-child span h6 {
+    color:black ;
   }
 }

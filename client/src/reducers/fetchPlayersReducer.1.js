@@ -23,6 +23,12 @@ const fetchPlayersReducer = (state=[], action) => {
             return {
                 history : action.history
             };
+        case `${types.CLEAR_HISTORY}_PENDING`:
+            // return action.payload || false;
+            return {
+                payload: action.players,
+                isLoading: action.isLoading
+            };
         case `${types.FETCH_PLAYERS}_PENDING`:
             // return action.payload || false;
             return {
