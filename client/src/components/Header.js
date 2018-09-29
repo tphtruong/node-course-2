@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from '../assets/images/main-logo.png';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Loader from './Loader';
+// import Loader from './Loader';
 import { Link } from 'react-router-dom';
 
 const Header = (props) => {
@@ -32,7 +32,7 @@ const Header = (props) => {
 
             </div>
 
-            <Loader loading={isLoading} />
+            {/* <Loader loading={isLoading} /> */}
 
         </div>
     )
