@@ -72,6 +72,8 @@ class GameContainer extends React.Component {
         var scores = this.state.value;
         var hasScore = false;
         var nextKeyId = this.state.nextKeyId;
+        const dealerName = e.target.dataset.dealername;
+
         playerList.map((player,i) => {
             nextKeyId ++
             if (!hasScore && parseInt(scores[i]) !== 0)
@@ -109,7 +111,7 @@ class GameContainer extends React.Component {
 
 
             const game = {gameKey:nextKeyId,
-                        dealer: thisGame.dealer,
+                        dealer: dealerName, // thisGame.dealer,
                         nextDealerPos: nextPos,
                         dealingNumber: thisNumber,
                         players: playerList

@@ -19,6 +19,12 @@ const renderHistoryList = (props) => {
 
         const players = historyList[e].players;
         const dealer = historyList[e].dealer;
+        const currDealerPos = historyList[e].nextDealerPos;
+        console.log('curr',currDealerPos);
+
+        //console.log(players[0].score + ',' + players[1].score  + ',' +  players[2].score  + ',' +  players[3].score  );
+
+        if (players[0].score === 0 && players[1].score === 0  && players[2].score === 0  && players[3].score === 0 ) continue;
 
         players.map(player => {
             rows.push( 

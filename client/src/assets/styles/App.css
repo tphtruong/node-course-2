@@ -82,7 +82,7 @@ div.Header {
   font-size: 24px !important;
 }
 
-/* .icon-dealer::before {
+ .icon-dealer::before {
   content:"";
   position: absolute;
   top:30%;
@@ -90,7 +90,7 @@ div.Header {
   border-top: 10px solid transparent;
   border-left: 10px solid red;
   border-bottom: 10px solid transparent;
-} */
+} 
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

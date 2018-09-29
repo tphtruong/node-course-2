@@ -32,14 +32,20 @@ const renderPlayersList = (props) => {
     }
 
     var firstRows = props.players[0];
+    var dealerName = "";
 
     firstRows.players.map((player,count) => {
+        
         var dealerPos = (pos) => {
             if (firstRows.nextDealerPos > -1 && firstRows.nextDealerPos < 4 && firstRows.nextDealerPos === pos) {
+                dealerName = player.name;
+
                 return <span className="badge badge-primary badge-pill">{firstRows.dealingNumber}</span>;
             } 
             return null;
         }
+
+        
         rows.push(
            <div key={player._id} className="card border-primary text-center bg-light mb-2" >
                
@@ -74,6 +80,7 @@ const renderPlayersList = (props) => {
             </div>              
             <div className="card-footer summary">
                 <button className="form-control btn btn-primary text-dark-lg" 
+                        data-dealerName={dealerName}
                         disabled={props.checkSum!==0 || !props.hasScore}
                         onClick={submitPlayerScores} >Submit</button>
 
