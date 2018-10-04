@@ -58,6 +58,7 @@ div.Header {
   height: 38px;
   left:0;
 }
+.has-error,
 .card-body.text-alert {
   /* border: solid 1px red; */
   color:red;
@@ -185,6 +186,14 @@ div.Header {
   border-radius: 10px;
 }
 
+.LoginForm,
+.SignUpForm {
+	width: 50%;
+  margin: auto;
+  margin-top: 90px;
+  color:black;
+}
+
 @media (max-width: 768px) {
   .panel .badge.badge-pill {
     width:100%;
@@ -287,12 +296,10 @@ div.Header {
   .btn-remove {
     display:none;
   }
+
+  .LoginForm,
+  .SignUpForm {
+    width: 90%;
+  }
 }
 
-.LoginForm,
-.SignUpForm {
-	width: 50%;
-  margin: auto;
-  margin-top: 90px;
-  color:black;
-}

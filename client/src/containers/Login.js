@@ -19,7 +19,17 @@ class Login extends React.Component {
     }
 
     handleUserLogin = (e) => {
-        console.log('this.state.username',this.state.username);
+        console.log('this.state.username',this.state.username)
+        if(document.getElementById('username').value.length===0){
+            alert('Please enter username.');
+            document.getElementById('username').focus();
+            return false;
+        }
+        if(document.getElementById('password').value.length===0){
+            alert('Please enter password.');
+            document.getElementById('password').focus()
+            return false;
+        }
         this.props.handleUserLogin(this.state.username, this.state.password);
     }
     onChangeUserName = (e) => {
@@ -45,11 +55,11 @@ class Login extends React.Component {
                     <label htmlFor="username">Enter your UserName</label>
                     <br/>
                     <input
+                        id="username"
                         hintText="Enter your Username"
                         value={this.state.username}
                         onChange = {this.onChangeUserName}
                         />
-
                 </div>
 
                 <div className={`form-group
@@ -58,6 +68,7 @@ class Login extends React.Component {
                     <br/>
                     <input
                         type="password"
+                        id="password"
                         hintText="Enter your Password"
                         value={this.state.password}
                         onChange = {this.onChangeUserPassword}
@@ -69,7 +80,7 @@ class Login extends React.Component {
                         value="Submit" 
                         onClick={this.handleUserLogin}/>
 
-                <div>{this.props.error !== undefined && `Error: ${this.props.error}`}</div>
+                <div className="has-error">{this.props.error !== undefined && `Error: ${this.props.error}`}</div>
 
 
             </form>
