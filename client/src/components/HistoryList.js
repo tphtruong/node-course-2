@@ -41,6 +41,7 @@ const renderHistoryList = (props) => {
             <div className="p-2 border flex-child btn-remove">
                 <button className="form-control btn btn-primary text-dark-lg" 
                     id={historyList[e]._id}
+                    disabled={props.user.role !== 'admin'}
                 onClick={removeGame} >Remove ...</button>
             </div>
         )

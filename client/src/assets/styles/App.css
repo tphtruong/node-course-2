@@ -288,3 +288,11 @@ div.Header {
     display:none;
   }
 }
+
+.LoginForm,
+.SignUpForm {
+	width: 50%;
+  margin: auto;
+  margin-top: 90px;
+  color:black;
+}

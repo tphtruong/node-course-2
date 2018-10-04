@@ -7,40 +7,89 @@ import * as actions from '../actions';
 import '../assets/styles/App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.theme.css';
 
 import Header from '../components/Header';
 import GameContainer from './GameContainer';
 import AddPlayers from '../components/AddPlayers';
+import SignUp from './SignUp';
+import Login from './Login';
+import Blank from '../components/Blank';
 
 class App extends Component {
-  // componentWillReceiveProps(nextProps) {
-  //   debugger;
-  //   if (true) {
-  //     this.props.router.push('/dashboard');
-  //   }
-  // }
-  //componentWillMount will be called several time 
-  //so instead we use componentDidMount
-  componentDidMount() {
-    //this.props.fetchPlayers();  //STEP: 2 (CALL ACTION CREATOR)   
-    // this.props.fetchHistory();
+  constructor(props){
+    super(props);
+
+    this.state={
+          user: {
+            token: localStorage.getItem('usertoken'),
+            username: localStorage.getItem('username') ,
+            error: '' //this.props.error
+          },
+          isLoggedIn: localStorage.getItem('usertoken') || undefined
+      }
+
+      if (this.props.user){
+        this.setState({user:this.props.user})
+      }
   }
 
-
   render() {
+    if (this.props.user === undefined 
+        || this.props.user &&  
+        (this.props.user.token === undefined || this.props.user.token === null)) { 
+        return <Login error={this.props.user && this.props.user.error} />
+    } 
+
+    const RenderGameContainer = (props) => {
+      return (
+        <GameContainer user={this.props.user && this.props.user} />
+      );
+    }
+
+
     return (
       <div className="App">
           <BrowserRouter>
             <div>
-              <Header />  
-              <Route exact path="/fetchPlayers" component={GameContainer}></Route>
-              <Route path="/addPlayers" component={AddPlayers}></Route>             
+              <Header user={this.props.user && this.props.user}  />  
+              <Route exact path="/fetchPlayers" render={RenderGameContainer}></Route>
+              <Route path="/addPlayers" component={AddPlayers}></Route> 
+              <Route exact path="/" component={Blank}></Route>   
+              {/* <Route path="/userSignUp" component={SignUp}></Route>  
+                        */}
             </div>
           </BrowserRouter>
       </div>
     );
   }
 }
+function mapStateToProps(state){
+  let user;
 
-export default connect(null,actions)(App); 
+  if (state.user.user){
+    localStorage.setItem('usertoken', state.user.user.token)
+    localStorage.setItem('username', state.user.user.username)  
+    localStorage.setItem('userrole', state.user.user.role)  
+    user = {username: state.user.user.username, 
+      token: state.user.user.token,
+      error: state.user.user.error,
+      role: state.user.user.role
+    }
+  } else {
+    if (localStorage.getItem('usertoken') !== 'undefined'){
+      user = {username: localStorage.getItem('username'), 
+        token: localStorage.getItem('usertoken'),
+        role: localStorage.getItem('userrole'),
+        error: undefined
+      }
+    }
+  }
+
+  return {
+      user: user// state.user.user
+  }
+}
+
+export default connect(mapStateToProps,actions)(App); 
 // REMBER: the above actions will be passed to the App as Props

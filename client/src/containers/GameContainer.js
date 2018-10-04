@@ -164,15 +164,16 @@ class GameContainer extends React.Component {
 
     render() {
         
-        const { isLoading, players } = this.props;
+        const { isLoading, players, user } = this.props;
 
-        console.log('component rendering...', players && players.length);
+        console.log('component rendering...', user);
         if (players && players.length === 0) return <Blank />
 
         return (          
             <div className="card-group">
 
                 <PlayersList
+                    user={user}
                   onScoreChange={this.onScoreChange.bind(this)}
                   onPlayerChange={this.onPlayerChange.bind(this)}
                   submitScore={this.submitScore.bind(this)}
@@ -184,7 +185,7 @@ class GameContainer extends React.Component {
                   dealerName={this.state.dealerName}
                   {...this.props}
                    />
-                <HistoryList {...this.props}  />
+                <HistoryList {...this.props} user={user}  />
             </div> 
         )
     }

@@ -6,10 +6,11 @@ import * as actions from '../actions';
 import { Link } from 'react-router-dom';
 
 const Header = (props) => {
-    const { isLoading } = props;
+    const { isLoading, user } = props;
 
     return (
         <div className="Header">
+
             <header className="App-header">
                 {/* <img src={logo} className="App-logo" alt="logo" /> */}
                 <h1 className="App-title">Welcome to XapXam</h1>
@@ -21,14 +22,28 @@ const Header = (props) => {
                             Home
                 </Link>
 
+                {props.user.role === 'admin' &&
                 <Link key="2"  to="/fetchPlayers" className="flex-sm-fill text-sm-center nav-link active"
                     onClick={props.clearHistory}>
                     Clear History
                 </Link>
+                }
 
+                {props.user.role === 'admin' &&
                 <Link key="3"  to="/AddPlayers" className="flex-sm-fill text-sm-center nav-link active">
                     Start New Game
                 </Link>
+                }
+
+                {localStorage.getItem('usertoken') !== null && <Link key="4"  to="/" className="flex-sm-fill text-sm-center nav-link active"
+                        onClick={props.handleUserLogout}>
+                        Logout
+                </Link>
+                }
+
+                <div className="flex-sm-fill text-sm-right text-white nav-link active" >
+                    <span>name: {props.user && props.user.username} ({props.user.role})</span>
+                </div>
 
             </div>
 

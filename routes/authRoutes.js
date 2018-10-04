@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
-
+const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('../config/keys')
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI);
@@ -10,8 +11,35 @@ const Players = mongoose.model('players');
 // const History = mongoose.model('history');
 require('../models/Games');
 const Games = mongoose.model('games');
+const Members = [
+    {username:'admin',password:'password123',token:'aaaaaaaaaaaaa',role:'admin'},
+    {username:'Hoa',password:'hoa123',token:'bbbbbbbbbbbbbb',role:'admin'},
+    {username:'Cau',password:'cau123',token:'cccccccccccccc',role:'user'},
+    {username:'Trinh',password:'trinh123',token:'dddddddddddd',role:'user'},
+    {username:'Masay',password:'masay123',token:'eeeeeeeeeeeeeeee',role:'user'},
+    {username:'Trevor',password:'trevor123',token:'ffffffffffffffff',role:'user'},
+    {username:'Kevin',password:'kevin123',token:'ffffffffffffffff',role:'user'},
+    {username:'Tuong',password:'tuong123',token:'ffffffffffffffff',role:'user'}
+]
+
+const LocalStrategy = require('passport-local').Strategy;
+
+
+const cookieSession = require('cookie-session');
 
 module.exports = (app) => {
+
+    app.use(bodyParser.json());
+    app.use(
+        cookieSession({
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            keys: [keys.cookieKey]
+        })
+    )
+    app.use(passport.initialize());
+    app.use(passport.session());
+    //app.use(session({ secret: 'ilovetoplay13' })); // session secret
+    
     function getTodayDate() {
         var today = new Date();
         var dd = today.getDate();
@@ -28,6 +56,84 @@ module.exports = (app) => {
         today = dd + '/' + mm + '/' + yyyy;
         return today;
     }
+
+    app.get('/api/current_user', (req, res) => {
+        // let user = {username:undefined,usertoken:undefined};
+        // if (sessionStorage.getItem('user')) {
+        //     user = sessionStorage.getItem('user') ;
+        // } 
+        //console.log(typeof(Storage));
+        //res.send('user');
+        res.send(req.user);
+      });
+    app.get('/api/set_user', (req, res) => {
+        let user = {username:'admin',usertoken:'password'};
+        sessionStorage.setItem("user", user);
+        console.log('set user:',sessionStorage.getItem('user'));
+        res.send(user);
+      });
+ 
+    app.get('/api/userLogout', (req, res) => {
+        //req.session = null;
+        req.logout();
+        //console.log('set user:',sessionStorage.getItem('user'));
+        res.redirect('/');
+      });
+    
+    app.post('/api/login', async (req, res) => {
+        const {username, password} = req.body;
+        let user = {username, password}
+        passport.use(new LocalStrategy({
+            usernameField: username,
+            passwordField: password
+          },
+          function(username, password, done) {
+            // ...
+            
+            let notFound = true;
+            Members.forEach(function(u) {
+                if (notFound && u.username === username && u.password === password){
+                    notFound = false;
+                }           
+            });
+            if (notFound)
+                return done('wrong username or password ');
+
+            return done(null, user)
+          }
+        ));
+        res.send(user);
+    });     
+
+    app.post('/api/userLogin', async (req, res) => {
+        console.log('user login', req.body);
+        const {username, password} = req.body;
+        var notFound = true;
+        var user = {username, password, token:undefined,error:undefined};
+        Members.forEach(function(u) {
+            //console.log('user loop',u);
+
+            if (notFound && u.username === username && u.password === password){
+                console.log('user found',user);
+                user.token = u.token;
+                user.error = undefined;
+                user.username = u.username;
+                user.role = u.role;
+                notFound = false;
+            }           
+        });
+
+        if (notFound){
+            user.error = 'wrong username or password';
+            user.token = undefined;
+            user.username = undefined
+        }
+        console.log('user:',user);
+        res.send(user);
+    });
+
+
+
 
     app.get('/api/fetchPlayers', async (req, res) => {
         const filter = {'_id': 'descending'};//{recipients: false}

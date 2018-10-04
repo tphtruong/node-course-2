@@ -4,7 +4,7 @@ import React from 'react';
 
 const renderPlayersList = (props) => {
 
-    console.log('renderPlayersList-props',props);
+    console.log('renderPlayersList-props',props.user);
 
     if(props.players === undefined || props.players.length===0) return null;
 
@@ -60,12 +60,12 @@ const renderPlayersList = (props) => {
                 <div className={`card-body ${player.total < 0 ? 'text-alert' : 'text-primary'}`}>
                     <h3 className="card-title center">{player.total}</h3>         
                 </div>
-                <div className="card-footer">
+                {props.user.role === 'admin' && <div className="card-footer">
                     <input id={count} value={props.value[count]} name={player.name}
                             className="form-control text-center gameScore" type="number"
                             onFocus={(e)=>e.target.select()}
                             onChange={props.onScoreChange}/>
-                </div>         
+                </div>}         
             </div>              
         )
         count++;
@@ -78,15 +78,14 @@ const renderPlayersList = (props) => {
             <div className="card-body">
                 <h3 className="card-title center">{props.checkSum}</h3>    
             </div>              
-            <div className="card-footer summary">
+            {props.user.role === 'admin' && <div className="card-footer summary">
                 <button className="form-control btn btn-primary text-dark-lg" 
                         data-dealerName={dealerName}
-                        disabled={props.checkSum!==0 || !props.hasScore}
+                        disabled={props.checkSum!==0 || !props.hasScore || props.user.role !== 'admin'}
                         onClick={submitPlayerScores} >Submit</button>
-
-            </div>                    
+            </div>}                    
         </div> 
-    )          
+    )        
     return rows;
 }
 

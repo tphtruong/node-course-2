@@ -2,7 +2,12 @@
 import axios from 'axios';
 import * as types from './types';
 
-
+export const fetchUser = () => async dispatch => {
+    const res = await axios.get('/api/current_user');
+  
+    dispatch({ type:  `${types.FETCH_USER}`, payload: res.data });
+  };
+  
 export const fetchPlayers = () => 
     //REMEMBER : Before, normally we would do the following
     /*
@@ -52,6 +57,28 @@ async (dispatch) => {             // this is a dispatch function by Redux-Thunk
         isLoading: false
     });
 }
+
+export const handleUserLogin = (username, password) =>   
+    async (dispatch) => {             // this is a dispatch function by Redux-Thunk
+        const user = {username,password};
+        const res = await axios.post('/api/userLogin', user);
+        dispatch({ 
+            type : `${types.USER_LOGIN}_FULFILLED`, 
+            payload: res.data 
+        });
+    }
+
+export const handleUserLogout = () =>   
+    async (dispatch) => {             // this is a dispatch function by Redux-Thunk
+        // localStorage.setItem('usertoken', null);
+        // localStorage.setItem('username', null);
+        localStorage.clear();
+
+        dispatch({ 
+            type : `${types.USER_LOGOUT}_FULFILLED`, 
+            payload: null
+        });
+    }
 
 export const clearHistory = () =>   
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk

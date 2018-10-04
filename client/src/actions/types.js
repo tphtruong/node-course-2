@@ -6,3 +6,6 @@ export const UPDATE_PLAYER = 'UPDATE_PLAYER';
 export const SAVE_GAME_SCORES = 'SAVE_GAME_SCORES';
 export const FETCH_HISTORY = 'FETCH_HISTORY';
 export const CLEAR_HISTORY = 'CLEAR_HISTORY';
+export const USER_LOGIN = 'USER_LOGIN';
+export const USER_LOGOUT = 'USER_LOGOUT';
+export const FETCH_USER = 'FETCH_USER';
