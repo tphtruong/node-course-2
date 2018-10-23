@@ -22,11 +22,11 @@ class App extends Component {
 
     this.state={
           user: {
-            token: localStorage.getItem('usertoken'),
-            username: localStorage.getItem('username') ,
+            token: window.sessionStorage.getItem('usertoken'),
+            username: window.sessionStorage.getItem('username') ,
             error: '' //this.props.error
           },
-          isLoggedIn: localStorage.getItem('usertoken') || undefined
+          isLoggedIn: window.sessionStorage.getItem('usertoken') || undefined
       }
 
       if (this.props.user){
@@ -68,19 +68,19 @@ function mapStateToProps(state){
   let user;
 
   if (state.user.user){
-    localStorage.setItem('usertoken', state.user.user.token)
-    localStorage.setItem('username', state.user.user.username)  
-    localStorage.setItem('userrole', state.user.user.role)  
+    window.sessionStorage.setItem('usertoken', state.user.user.token)
+    window.sessionStorage.setItem('username', state.user.user.username)  
+    window.sessionStorage.setItem('userrole', state.user.user.role)  
     user = {username: state.user.user.username, 
       token: state.user.user.token,
       error: state.user.user.error,
       role: state.user.user.role
     }
   } else {
-    if (localStorage.getItem('usertoken') !== 'undefined'){
-      user = {username: localStorage.getItem('username'), 
-        token: localStorage.getItem('usertoken'),
-        role: localStorage.getItem('userrole'),
+    if (window.sessionStorage.getItem('usertoken') !== 'undefined'){
+      user = {username: window.sessionStorage.getItem('username'), 
+        token: window.sessionStorage.getItem('usertoken'),
+        role: window.sessionStorage.getItem('userrole'),
         error: undefined
       }
     }

@@ -1,6 +1,29 @@
 // ACTION CREATOR
 import axios from 'axios';
 import * as types from './types';
+import { takeEvery } from 'redux-saga/effects';
+import setupSocket from '../sockets/setupSocket';
+
+//const socket = setupSocket(dispatch,'Me');
+
+const handleNewMessage = function* handleNewMessage(params) {
+    yield takeEvery(types.ADD_MESSAGE, (action) => {
+      debugger;
+      action.author = params.username
+      params.socket.send(JSON.stringify(action))
+    })
+  }
+
+
+let socket = undefined;
+console.log('socket...', socket);
+
+export const openSocket = (user) =>   
+  async (dispatch) => {             // this is a dispatch function by Redux-Thunk
+      console.log('openSocket ... user', user);
+      console.log('dispatch-res', dispatch);
+      
+  }
 
 export const fetchUser = () => async dispatch => {
     const res = await axios.get('/api/current_user');
@@ -37,7 +60,7 @@ export const fetchPlayers = () =>
             players: res.data ,
             isLoading: false
         })
-}
+    }
 //removeGame
 export const removeGame = (gamedId) =>   
 async (dispatch) => {             // this is a dispatch function by Redux-Thunk
@@ -62,6 +85,16 @@ export const handleUserLogin = (username, password) =>
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
         const user = {username,password};
         const res = await axios.post('/api/userLogin', user);
+        //debugger;
+
+        //openSocket(user);
+        if (res.data.error === undefined){
+            socket = setupSocket(dispatch,user.username);
+            //sagaMiddleware.run(handleNewMessage, { socket, username });
+            //console.log('sagaMiddleware',socket);
+        }
+        //handleNewMessage, { socket, username }
+        
         dispatch({ 
             type : `${types.USER_LOGIN}_FULFILLED`, 
             payload: res.data 
@@ -72,7 +105,17 @@ export const handleUserLogout = () =>
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
         // localStorage.setItem('usertoken', null);
         // localStorage.setItem('username', null);
-        localStorage.clear();
+        //let user = localStorage.getItem('username');
+        let user = window.sessionStorage.getItem('username');
+
+        //localStorage.clear();
+        window.sessionStorage.clear();
+        //const res = await axios.post('/api/userLogout', user);
+        socket.send(JSON.stringify({
+            type: types.REMOVE_USER,
+            author: user,
+            message: 'user logout'
+          }))
 
         dispatch({ 
             type : `${types.USER_LOGOUT}_FULFILLED`, 
@@ -108,6 +151,9 @@ export const handleToken = (token) =>
 
 export const handleSaveGameScores = (game) => 
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
+        let user = window.sessionStorage.getItem('username');
+        if (socket === undefined)
+            socket = setupSocket(dispatch,user);
 
         dispatch({ 
             type : `${types.ADD_PLAYERS}_PENDING`, 
@@ -116,7 +162,16 @@ export const handleSaveGameScores = (game) =>
         })   
 
         const res = await axios.post('/api/addgame',game)
-        console.log('action-save-game-score-response',res.config.data);
+        //console.log('action-save-game-score-response',res.config.data);
+        //debugger;
+
+        //console.log('socket',socket);
+        // let user = window.sessionStorage.getItem('username');
+        socket.send(JSON.stringify({
+            type: types.ADD_SCORE,
+            author: user,
+            message: res.config.data
+          }))
 
         dispatch({ 
             type : `${types.ADD_PLAYERS}_FULFILLED`, 
@@ -151,4 +206,7 @@ const addTodoSuccess = data => ({
             players: data
         }
 });
-      
+
+const refreshScores = () => {
+    console.log('refresh score....');
+}

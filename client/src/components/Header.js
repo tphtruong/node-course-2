@@ -18,7 +18,7 @@ const Header = (props) => {
 
              <div className="btn-group" role="group">
 
-                <Link key="1" onClick={window.location.reload} to="/fetchPlayers" className="flex-sm-fill text-sm-center nav-link active">
+                <Link key="1" onClick={props.fetchPlayers} to="/fetchPlayers" className="flex-sm-fill text-sm-center nav-link active">
                             Home
                 </Link>
 
@@ -35,7 +35,7 @@ const Header = (props) => {
                 </Link>
                 }
 
-                {localStorage.getItem('usertoken') !== null && <Link key="4"  to="/" className="flex-sm-fill text-sm-center nav-link active"
+                {window.sessionStorage.getItem('usertoken') !== null && <Link key="4"  to="/" className="flex-sm-fill text-sm-center nav-link active"
                         onClick={props.handleUserLogout}>
                         Logout
                 </Link>
