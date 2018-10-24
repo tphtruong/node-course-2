@@ -97,7 +97,7 @@ module.exports = (users) => {
         ws.on('close', (message) => {
             const data = JSON.parse(message); 
 
-            console.log('on close...before ', index);
+            console.log('on close...before ', data);
             
             //usersList.splice(index, 1)
             for (var i = usersList.length; i--;) {

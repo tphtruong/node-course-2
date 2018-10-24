@@ -21,9 +21,9 @@ const Members = [
     {username:'Kevin',password:'kevin123',token:'ffffffffffffffff',role:'user'},
     {username:'Tuong',password:'tuong123',token:'ffffffffffffffff',role:'user'}
 ]
-const chat = require('./chatRoutes')(Members);
+require('./chatRoutes')(Members);
 const LocalStrategy = require('passport-local').Strategy;
-console.log('chat....',chat);
+
 
 const cookieSession = require('cookie-session');
 

@@ -4,7 +4,7 @@ import * as types from '../actions/types'
 
 const setupSocket = (dispatch, username) => {
   
-  var HOST = window.location.origin.replace(/^http/, 'ws').replace('3000',process.env.PORT||'8989')
+  var HOST = window.location.origin.replace(/^http/, 'ws').replace('3000','8989')
   //var socketURL = HOST + ':' + process.env.PORT||'8989'
 
   console.log('host',HOST);
