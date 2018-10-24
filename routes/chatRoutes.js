@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: process.env.PORT||8989 });
-console.log('websocket:port',wss);
+const wss = new WebSocket.Server({ port: 8989 });
+console.log('websocket',wss);
 
 //const Members = require('../models/Players');
 const usersList = []

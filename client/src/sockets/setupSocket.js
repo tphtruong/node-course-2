@@ -4,10 +4,10 @@ import * as types from '../actions/types'
 
 const setupSocket = (dispatch, username) => {
   
-  var HOST = window.location.origin.replace(/^http/, 'ws').replace('3000','8989')
+  let HOST = window.location.origin.replace(/^http/, 'ws').replace('3000','8989')
   //var socketURL = HOST + ':' + process.env.PORT||'8989'
-
-  console.log('host',HOST);
+  HOST = 'ws://localhost:8989'
+  //console.log('host',HOST);
   //var ws = new WebSocket(HOST);
   const socket = new WebSocket(HOST) //'ws://localhost:8989')
 
