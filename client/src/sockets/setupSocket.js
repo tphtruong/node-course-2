@@ -6,7 +6,7 @@ const setupSocket = (dispatch, username) => {
   
   let HOST = window.location.origin.replace(/^http/, 'ws').replace('3000','8989')
   //var socketURL = HOST + ':' + process.env.PORT||'8989'
-  HOST = 'ws://localhost:8989'
+  //HOST = 'ws://localhost:8989'
   //console.log('host',HOST);
   //var ws = new WebSocket(HOST);
   const socket = new WebSocket(HOST) //'ws://localhost:8989')
