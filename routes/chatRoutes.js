@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8989 });
-//console.log('websocket',wss);
+const wss = new WebSocket.Server({ port: process.env.PORT||8989 });
+console.log('websocket:port',wss);
 
 //const Members = require('../models/Players');
 const usersList = []
@@ -97,7 +97,7 @@ module.exports = (users) => {
         ws.on('close', (message) => {
             const data = JSON.parse(message); 
 
-            console.log('on close...before ', data);
+            console.log('on close...before ', index);
             
             //usersList.splice(index, 1)
             for (var i = usersList.length; i--;) {

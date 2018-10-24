@@ -3,7 +3,13 @@ import * as types from '../actions/types'
 // import { addUser, messageReceived, populateUsersList } from '../actions'
 
 const setupSocket = (dispatch, username) => {
-  const socket = new WebSocket('ws://localhost:8989')
+  
+  var HOST = window.location.origin.replace(/^http/, 'ws').replace('3000',process.env.PORT||'8989')
+  //var socketURL = HOST + ':' + process.env.PORT||'8989'
+
+  console.log('host',HOST);
+  //var ws = new WebSocket(HOST);
+  const socket = new WebSocket(HOST) //'ws://localhost:8989')
 
   socket.onopen = () => {
 
