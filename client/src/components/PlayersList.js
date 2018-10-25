@@ -80,7 +80,7 @@ const renderPlayersList = (props) => {
             </div>              
             {props.user.role === 'admin' && <div className="card-footer summary">
                 <button className="form-control btn btn-primary text-dark-lg" 
-                        data-dealername={dealerName}
+                        data-dealerName={dealerName}
                         disabled={props.checkSum!==0 || !props.hasScore || props.user.role !== 'admin'}
                         onClick={submitPlayerScores} >Submit</button>
             </div>}                    

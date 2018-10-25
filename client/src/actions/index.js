@@ -14,9 +14,7 @@ const handleNewMessage = function* handleNewMessage(params) {
     })
   }
 
-
-let socket = undefined;
-console.log('socket...', socket);
+let socket = () => {};
 
 export const openSocket = (user) =>   
   async (dispatch) => {             // this is a dispatch function by Redux-Thunk
@@ -60,7 +58,7 @@ export const fetchPlayers = () =>
             players: res.data ,
             isLoading: false
         })
-    }
+}
 //removeGame
 export const removeGame = (gamedId) =>   
 async (dispatch) => {             // this is a dispatch function by Redux-Thunk
@@ -88,11 +86,10 @@ export const handleUserLogin = (username, password) =>
         //debugger;
 
         //openSocket(user);
-        if (res.data.error === undefined){
-            socket = setupSocket(dispatch,user.username);
-            //sagaMiddleware.run(handleNewMessage, { socket, username });
-            //console.log('sagaMiddleware',socket);
-        }
+        socket = setupSocket(dispatch,user.username);
+        //sagaMiddleware.run(handleNewMessage, { socket, username });
+        console.log('sagaMiddleware',socket);
+
         //handleNewMessage, { socket, username }
         
         dispatch({ 
@@ -151,9 +148,6 @@ export const handleToken = (token) =>
 
 export const handleSaveGameScores = (game) => 
     async (dispatch) => {             // this is a dispatch function by Redux-Thunk
-        let user = window.sessionStorage.getItem('username');
-        if (socket === undefined)
-            socket = setupSocket(dispatch,user);
 
         dispatch({ 
             type : `${types.ADD_PLAYERS}_PENDING`, 
@@ -162,16 +156,7 @@ export const handleSaveGameScores = (game) =>
         })   
 
         const res = await axios.post('/api/addgame',game)
-        //console.log('action-save-game-score-response',res.config.data);
-        //debugger;
-
-        //console.log('socket',socket);
-        // let user = window.sessionStorage.getItem('username');
-        socket.send(JSON.stringify({
-            type: types.ADD_SCORE,
-            author: user,
-            message: res.config.data
-          }))
+        console.log('action-save-game-score-response',res.config.data);
 
         dispatch({ 
             type : `${types.ADD_PLAYERS}_FULFILLED`, 
@@ -206,7 +191,4 @@ const addTodoSuccess = data => ({
             players: data
         }
 });
-
-const refreshScores = () => {
-    console.log('refresh score....');
-}
+      

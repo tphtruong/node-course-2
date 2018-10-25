@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8989 });
-console.log('websocket',wss);
+//console.log('websocket',wss);
 
 //const Members = require('../models/Players');
 const usersList = []
@@ -78,16 +78,6 @@ module.exports = (users) => {
                         message: data.message,
                         author: data.author
                     }, ws)
-                    break
-                case 'ADD_SCORE': ////{"type":"ADD_MESSAGE","id":0,"message":"hello world","author":"Ann"}
-                    console.log('ADD_SCORE  ....',data.message);
-
-                    broadcast({
-                        type: 'ADD_SCORE',
-                        message: data.message,
-                        author: data.author
-                    }, ws)
-
                     break
                 default:
                 break

@@ -73,6 +73,13 @@ module.exports = (app) => {
         res.send(user);
       });
  
+    app.get('/api/userLogout', (req, res) => {
+        //req.session = null;
+        req.logout();
+        //console.log('set user:',sessionStorage.getItem('user'));
+        res.redirect('/');
+      });
+    
     app.post('/api/login', async (req, res) => {
         const {username, password} = req.body;
         let user = {username, password}
@@ -125,13 +132,8 @@ module.exports = (app) => {
         res.send(user);
     });
 
-    app.get('/api/userLogout', (req, res) => {
-        const {username} = req.body;
-        console.log('user logout...', username);
-        req.logout();
-        //console.log('set user:',sessionStorage.getItem('user'));
-        res.redirect('/');
-      });
+
+
 
     app.get('/api/fetchPlayers', async (req, res) => {
         const filter = {'_id': 'descending'};//{recipients: false}
