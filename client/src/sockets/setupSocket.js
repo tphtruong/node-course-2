@@ -4,7 +4,15 @@ import * as types from '../actions/types'
 
 const setupSocket = (dispatch, username) => {
   
-  let HOST = window.location.origin.replace(/^http/, 'ws').replace('3000','8989')
+  let HOST //= window.location.origin.replace(/^http/, 'ws').replace('3000','8989')
+  if (process.env.NODE_ENV === 'production') {
+    // we are in production - return the prod set of keys
+    HOST = window.location.origin.replace(/^http/, 'ws') + ':8989'
+  } else {
+    // we are in development - return the dev keys!!!
+    HOST = window.location.origin.replace(/^http/, 'ws').replace('3000','8989')
+  }
+
   //var socketURL = HOST + ':' + process.env.PORT||'8989'
   //HOST = 'ws://localhost:8989'
   //console.log('host',HOST);
