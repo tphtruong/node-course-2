@@ -12,16 +12,16 @@ const Players = mongoose.model('players');
 require('../models/Games');
 const Games = mongoose.model('games');
 const Members = [
-    {username:'admin',password:'password123',token:'aaaaaaaaaaaaa',role:'admin'},
-    {username:'Hoa',password:'hoa123',token:'bbbbbbbbbbbbbb',role:'admin'},
-    {username:'Cau',password:'cau123',token:'cccccccccccccc',role:'user'},
-    {username:'Trinh',password:'trinh123',token:'dddddddddddd',role:'user'},
-    {username:'Masay',password:'masay123',token:'eeeeeeeeeeeeeeee',role:'user'},
-    {username:'Trevor',password:'trevor123',token:'ffffffffffffffff',role:'user'},
-    {username:'Kevin',password:'kevin123',token:'ffffffffffffffff',role:'user'},
-    {username:'Tuong',password:'tuong123',token:'ffffffffffffffff',role:'user'}
+    {username:'admin',password:'password123',token:'aaaaaaaaaaaaa',role:'admin',isLoggedIn:false},
+    {username:'Hoa',password:'hoa123',token:'bbbbbbbbbbbbbb',role:'admin',isLoggedIn:false},
+    {username:'Cau',password:'cau123',token:'cccccccccccccc',role:'user',isLoggedIn:false},
+    {username:'Trinh',password:'trinh123',token:'dddddddddddd',role:'user',isLoggedIn:false},
+    {username:'Masay',password:'masay123',token:'eeeeeeeeeeeeeeee',role:'user',isLoggedIn:false},
+    {username:'Trevor',password:'trevor123',token:'ffffffffffffffff',role:'user',isLoggedIn:false},
+    {username:'Kevin',password:'kevin123',token:'ffffffffffffffff',role:'user',isLoggedIn:false},
+    {username:'Tuong',password:'tuong123',token:'ffffffffffffffff',role:'user',isLoggedIn:false}
 ]
-require('./chatRoutes')(Members);
+//require('./chatRoutes')(Members);
 const LocalStrategy = require('passport-local').Strategy;
 
 
@@ -73,10 +73,19 @@ module.exports = (app) => {
         res.send(user);
       });
  
-    app.get('/api/userLogout', (req, res) => {
+    app.post('/api/userLogout', async (req, res) => {
         //req.session = null;
+        const {username} = req.body;
+        console.log('user logout',username);
+
+        Members.forEach(function(u) {
+            if (u.username === username){
+                u.isLoggedIn = false;
+            }           
+        });
+
         req.logout();
-        //console.log('set user:',sessionStorage.getItem('user'));
+        
         res.redirect('/');
       });
     
@@ -110,21 +119,27 @@ module.exports = (app) => {
         const {username, password} = req.body;
         var notFound = true;
         var user = {username, password, token:undefined,error:undefined};
+        var error = '';
         Members.forEach(function(u) {
             //console.log('user loop',u);
 
-            if (notFound && u.username === username && u.password === password){
+            if (notFound && u.username === username && u.password === password && error===''){
                 console.log('user found',user);
-                user.token = u.token;
-                user.error = undefined;
-                user.username = u.username;
-                user.role = u.role;
-                notFound = false;
+                if (u.isLoggedIn){
+                    error = 'user already logged in';
+                }else{
+                    user.token = u.token;
+                    user.error = undefined;
+                    user.username = u.username;
+                    user.role = u.role;
+                    notFound = false;
+                    u.isLoggedIn = true;
+                }
             }           
         });
 
         if (notFound){
-            user.error = 'wrong username or password';
+            user.error = error === '' ? 'wrong username or password' : error;
             user.token = undefined;
             user.username = undefined
         }

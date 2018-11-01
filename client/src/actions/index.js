@@ -86,9 +86,9 @@ export const handleUserLogin = (username, password) =>
         //debugger;
 
         //openSocket(user);
-        socket = setupSocket(dispatch,user.username);
+        //socket = setupSocket(dispatch,user.username);
         //sagaMiddleware.run(handleNewMessage, { socket, username });
-        console.log('sagaMiddleware',socket);
+        //console.log('sagaMiddleware',socket);
 
         //handleNewMessage, { socket, username }
         
@@ -103,16 +103,16 @@ export const handleUserLogout = () =>
         // localStorage.setItem('usertoken', null);
         // localStorage.setItem('username', null);
         //let user = localStorage.getItem('username');
-        let user = window.sessionStorage.getItem('username');
-
+        let username = window.sessionStorage.getItem('username');
+        const user = {username};
         //localStorage.clear();
         window.sessionStorage.clear();
-        //const res = await axios.post('/api/userLogout', user);
-        socket.send(JSON.stringify({
-            type: types.REMOVE_USER,
-            author: user,
-            message: 'user logout'
-          }))
+        const res = await axios.post('/api/userLogout', user);
+        // socket.send(JSON.stringify({
+        //     type: types.REMOVE_USER,
+        //     author: user,
+        //     message: 'user logout'
+        //   }))
 
         dispatch({ 
             type : `${types.USER_LOGOUT}_FULFILLED`, 

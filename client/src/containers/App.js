@@ -30,7 +30,7 @@ class App extends Component {
       }
 
       if (this.props.user){
-        this.setState({user:this.props.user})
+        //this.setState({user:this.props.user})
       }
   }
 

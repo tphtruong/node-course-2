@@ -19,7 +19,7 @@ class Login extends React.Component {
     }
 
     handleUserLogin = (e) => {
-        console.log('this.state.username',this.state.username)
+        //console.log('this.state.username',this.state.username)
         if(document.getElementById('username').value.length===0){
             alert('Please enter username.');
             document.getElementById('username').focus();
@@ -33,18 +33,18 @@ class Login extends React.Component {
         this.props.handleUserLogin(this.state.username, this.state.password);
     }
     onChangeUserName = (e) => {
-        console.log('this.state.username',e.target.value);
+        // console.log('this.state.username',e.target.value);
         this.setState({username : e.target.value});
     }
     onChangeUserPassword = (e) => {
-        console.log('this.state.password',e.target.value);
+        //console.log('this.state.password',e.target.value);
         this.setState({password : e.target.value});
     }
     errorClass(error) {
         return(error.length === 0 ? '' : 'has-error');
     }
     render() {
-        console.log('eeror',this.props.user);
+        //console.log('eeror',this.props.user);
         
         return (
         <div className="App-header">
@@ -56,7 +56,6 @@ class Login extends React.Component {
                     <br/>
                     <input
                         id="username"
-                        hintText="Enter your Username"
                         value={this.state.username}
                         onChange = {this.onChangeUserName}
                         />
@@ -69,7 +68,6 @@ class Login extends React.Component {
                     <input
                         type="password"
                         id="password"
-                        hintText="Enter your Password"
                         value={this.state.password}
                         onChange = {this.onChangeUserPassword}
                         />

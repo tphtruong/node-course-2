@@ -1,22 +1,36 @@
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8989 });
+
 //console.log('websocket',wss);
 
 //const Members = require('../models/Players');
 const usersList = []
 
-const broadcast = (data, ws) => {
-    console.log('bradcasting...', data);
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN && client !== ws) {
-            console.log('send json data from clients-ws:', data);
-            client.send(JSON.stringify(data))
-        }
-    })
-}
+const users = [
+    {username:'admin',password:'password123',token:'aaaaaaaaaaaaa',role:'admin'},
+    {username:'Hoa',password:'hoa123',token:'bbbbbbbbbbbbbb',role:'admin'},
+    {username:'Cau',password:'cau123',token:'cccccccccccccc',role:'user'},
+    {username:'Trinh',password:'trinh123',token:'dddddddddddd',role:'user'},
+    {username:'Masay',password:'masay123',token:'eeeeeeeeeeeeeeee',role:'user'},
+    {username:'Trevor',password:'trevor123',token:'ffffffffffffffff',role:'user'},
+    {username:'Kevin',password:'kevin123',token:'ffffffffffffffff',role:'user'},
+    {username:'Tuong',password:'tuong123',token:'ffffffffffffffff',role:'user'}
+]
 
-module.exports = (users) => {
+module.exports = (server) => {
 
+    const wss = new WebSocket.Server({ server });
+
+    const broadcast = (data, ws) => {
+        console.log('bradcasting...', data);
+        wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN && client !== ws) {
+                console.log('send json data from clients-ws:', data);
+                client.send(JSON.stringify(data))
+            }
+        })
+    }
+
+    
     wss.on('connection', (ws) => {
 
         let index
