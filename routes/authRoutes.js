@@ -125,16 +125,16 @@ module.exports = (app) => {
 
             if (notFound && u.username === username && u.password === password && error===''){
                 console.log('user found',user);
-                if (u.isLoggedIn){
-                    error = 'user already logged in';
-                }else{
+                // if (u.isLoggedIn){
+                //     error = 'user already logged in';
+                // }else{
                     user.token = u.token;
                     user.error = undefined;
                     user.username = u.username;
                     user.role = u.role;
                     notFound = false;
                     u.isLoggedIn = true;
-                }
+                // }
             }           
         });
 
