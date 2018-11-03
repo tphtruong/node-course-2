@@ -76,10 +76,11 @@ module.exports = (app) => {
     app.post('/api/userLogout', async (req, res) => {
         //req.session = null;
         const {username} = req.body;
-        console.log('user logout',username);
+        //console.log('user logout',username);
 
         Members.forEach(function(u) {
             if (u.username === username){
+                console.log('user logout',username);
                 u.isLoggedIn = false;
             }           
         });
@@ -124,17 +125,18 @@ module.exports = (app) => {
             //console.log('user loop',u);
 
             if (notFound && u.username === username && u.password === password && error===''){
-                console.log('user found',user);
-                // if (u.isLoggedIn){
-                //     error = 'user already logged in';
-                // }else{
+                console.log('user isLoggedIn',u.isLoggedIn);
+                if (u.isLoggedIn){
+                    error = 'user already logged in';
+                }else{
                     user.token = u.token;
                     user.error = undefined;
                     user.username = u.username;
                     user.role = u.role;
                     notFound = false;
                     u.isLoggedIn = true;
-                // }
+                }
+                console.log('user isLoggedIn after',u.isLoggedIn);
             }           
         });
 
