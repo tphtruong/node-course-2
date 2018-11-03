@@ -6,20 +6,21 @@ const keys = require('../config/keys')
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI);
 
+let jwt = require('jsonwebtoken');
 require('../models/Players');
 const Players = mongoose.model('players');
 // const History = mongoose.model('history');
 require('../models/Games');
 const Games = mongoose.model('games');
 const Members = [
-    {username:'admin',password:'password123',token:'aaaaaaaaaaaaa',role:'admin',isLoggedIn:false},
-    {username:'Hoa',password:'hoa123',token:'bbbbbbbbbbbbbb',role:'admin',isLoggedIn:false},
-    {username:'Cau',password:'cau123',token:'cccccccccccccc',role:'user',isLoggedIn:false},
-    {username:'Trinh',password:'trinh123',token:'dddddddddddd',role:'user',isLoggedIn:false},
-    {username:'Masay',password:'masay123',token:'eeeeeeeeeeeeeeee',role:'user',isLoggedIn:false},
-    {username:'Trevor',password:'trevor123',token:'ffffffffffffffff',role:'user',isLoggedIn:false},
-    {username:'Kevin',password:'kevin123',token:'ffffffffffffffff',role:'user',isLoggedIn:false},
-    {username:'Tuong',password:'tuong123',token:'ffffffffffffffff',role:'user',isLoggedIn:false}
+    {username:'admin',password:'password123',secret:'aaaaaaaaaaaaa',role:'admin',isLoggedIn:false},
+    {username:'Hoa',password:'hoa123',secret:'bbbbbbbbbbbbbb',role:'admin',isLoggedIn:false},
+    {username:'Cau',password:'cau123',secret:'cccccccccccccc',role:'user',isLoggedIn:false},
+    {username:'Trinh',password:'trinh123',secret:'dddddddddddd',role:'user',isLoggedIn:false},
+    {username:'Masay',password:'masay123',secret:'eeeeeeeeeeeeeeee',role:'user',isLoggedIn:false},
+    {username:'Trevor',password:'trevor123',secret:'ffffffffffffffff',role:'user',isLoggedIn:false},
+    {username:'Kevin',password:'kevin123',secret:'ffffffffffffffff',role:'user',isLoggedIn:false},
+    {username:'Tuong',password:'tuong123',secret:'ffffffffffffffff',role:'user',isLoggedIn:false}
 ]
 //require('./chatRoutes')(Members);
 const LocalStrategy = require('passport-local').Strategy;
@@ -30,6 +31,9 @@ const cookieSession = require('cookie-session');
 module.exports = (app) => {
 
     app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({     
+        extended: true
+    }));
     app.use(
         cookieSession({
             maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -90,33 +94,19 @@ module.exports = (app) => {
         res.redirect('/');
       });
     
-    app.post('/api/login', async (req, res) => {
+    app.get('/api/logoutall', async (req, res) => {
         const {username, password} = req.body;
-        let user = {username, password}
-        passport.use(new LocalStrategy({
-            usernameField: username,
-            passwordField: password
-          },
-          function(username, password, done) {
-            // ...
-            
-            let notFound = true;
-            Members.forEach(function(u) {
-                if (notFound && u.username === username && u.password === password){
-                    notFound = false;
-                }           
-            });
-            if (notFound)
-                return done('wrong username or password ');
-
-            return done(null, user)
-          }
-        ));
-        res.send(user);
+        Members.forEach(function(u) {
+            u.isLoggedIn = false;         
+        });
+        res.send(Members);
     });     
 
-    app.post('/api/userLogin', async (req, res) => {
-        console.log('user login', req.body);
+    app.post('/api/userLogin', requireLogin, async (req, res) => {
+        
+        console.log('user loginn token', req.body.token);
+        console.log('login message', res.message);
+
         const {username, password} = req.body;
         var notFound = true;
         var user = {username, password, token:undefined,error:undefined};
@@ -126,15 +116,30 @@ module.exports = (app) => {
 
             if (notFound && u.username === username && u.password === password && error===''){
                 console.log('user isLoggedIn',u.isLoggedIn);
-                if (u.isLoggedIn){
+                if (u.username.toLowerCase() !== 'hoa' && u.isLoggedIn){
                     error = 'user already logged in';
                 }else{
-                    user.token = u.token;
-                    user.error = undefined;
-                    user.username = u.username;
-                    user.role = u.role;
-                    notFound = false;
-                    u.isLoggedIn = true;
+                    // create the token
+                    var token = jwt.sign(u,keys.cookieKey);
+                    console.log('token', token);
+                    //If token is present pass the token to client else send respective message
+                    if(token){
+                        user.token = token;
+                        user.error = undefined;
+                        user.username = u.username;
+                        user.role = u.role;
+                        notFound = false;
+                        u.isLoggedIn = true;
+
+                        res.status(200).json(user);
+                    }
+                    else{
+                        user.error = 'unexpected error'
+                        res.status(403).json({
+                            user
+                        });
+                    }
+
                 }
                 console.log('user isLoggedIn after',u.isLoggedIn);
             }           
@@ -144,9 +149,12 @@ module.exports = (app) => {
             user.error = error === '' ? 'wrong username or password' : error;
             user.token = undefined;
             user.username = undefined
+            res.status(403).json({
+                user
+            });
         }
         console.log('user:',user);
-        res.send(user);
+        //res.send(user);
     });
 
 

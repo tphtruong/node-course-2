@@ -25,6 +25,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "electron-dev": "^1.0.1",
     "express": "^4.15.3",
+    "jsonwebtoken": "^8.3.0",
     "localtunnel": "^1.9.1",
     "lodash": "^4.17.4",
     "mongoose": "^4.11.1",
